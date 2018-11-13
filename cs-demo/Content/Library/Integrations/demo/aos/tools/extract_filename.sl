@@ -29,5 +29,4 @@ operation:
     - filename: ${filename}
     
   results:
-    - SUCCESS: ${returnCode == '0'}
-    - FAILURE
+    - SUCCESS
