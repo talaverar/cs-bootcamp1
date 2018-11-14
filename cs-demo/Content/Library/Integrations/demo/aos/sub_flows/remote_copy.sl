@@ -13,7 +13,7 @@ flow:
     - host: 10.0.46.100
     - username: root
     - password: admin@123
-    - url: 'http://vmdocker.hcm.demo.local:36980/job/AOS-repo/ws/install_java.sh'
+    - url: 'http://vmdocker.hcm.demo.local:36980/job/AOS-repo/ws/deploy_war.sh'
   workflow:
     - extract_filename:
         do:
@@ -23,13 +23,12 @@ flow:
           - filename
         navigate:
           - SUCCESS: get_file
-          - FAILURE: on_failure
     - remote_secure_copy:
         do:
           io.cloudslang.base.remote_file_transfer.remote_secure_copy:
             - source_path: '${filename}'
             - destination_host: '${host}'
-            - destination_path: /tmp
+            - destination_path: "${get_sp('script_location')}"
             - destination_username: '${username}'
             - destination_password:
                 value: '${password}'
@@ -49,16 +48,16 @@ flow:
   outputs:
     - filename: '${filename}'
   results:
-    - FAILURE
     - SUCCESS
+    - FAILURE
 extensions:
   graph:
     steps:
       extract_filename:
-        x: 203
-        y: 68
+        x: 223
+        y: 64
       get_file:
-        x: 219
+        x: 220
         y: 281
       remote_secure_copy:
         x: 417
